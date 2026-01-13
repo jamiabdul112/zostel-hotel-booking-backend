@@ -18,31 +18,31 @@ cloudinary.config({
 
 const app = express()
 
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ extended: true, limit: '100mb' }));
+app.set("trust proxy", 1);
+
+
 
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: "https://zostel-hotel-booking.onrender.com",
         credentials: true,
     })
 )
 
-app.use(express.json());
-app.use(cookieParser())
-app.use(express.urlencoded({
-    extended: true
-}))
+app.use(express.json({ limit: "30mb" })); 
+app.use(express.urlencoded({ extended: true, limit: "30mb" }));
+app.use(cookieParser());
 
 
 
-const PORT = process.env.PORT
+
+const PORT = process.env.PORT || 5000
 
 app.use("/api/auth", authRoute)
 app.use("/api/room", roomRoute)
 app.use("/api/order", orderRoute)
 
-app.listen(PORT, ()=>{
+app.listen(PORT, "0.0.0.0", ()=>{
     console.log(`Server is running on Port ${PORT}`)
     connectDB()
 })
